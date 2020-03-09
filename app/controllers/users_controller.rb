@@ -9,18 +9,23 @@ class UsersController < ApplicationController
     erb :"/users/login.html"
   end
 
-  # POST: /users
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'/users/show.html'
+  end
+
   post "/users" do
     user = User.create(params[:user])
     redirect "/users/#{user.slug}"
   end
 
   post '/login' do
-    
-  end
-
-  get '/users/:slug' do
-    @user = User.find_by_slug(params[:slug])
-    erb :'/users/show.html'
+    @user = User.find_by(username: params[:user][:username])
+    if @user && @user.authenticate(params[:user][:password])
+      session[:user_id] = @user.id
+      redirect to "/users/#{@user.username}"
+    else
+      redirect to '/login'
+    end
   end
 end
