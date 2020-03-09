@@ -1,10 +1,13 @@
 <h1>Hello there, <%= @user.username %>. Welcome to your homepage</h1>
-<form action="/logout" method="GET">
-    <input type="submit" value="Logout">
-</form>
 <h2>Notecards</h2>
+<form action="/" method="GET">
+    <input type="submit" value="Create Notecard">
+</form>
 <% @user.notecards.each do |card| %>
 <hr>
 <h3>Concept: <%= card.concept %></h3>
 <p>Definition: <%= card.definition %></p>
 <% end %>
+<form action="/logout" method="GET">
+    <input type="submit" value="Logout">
+</form>
