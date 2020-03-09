@@ -1,22 +1,47 @@
 class UsersController < ApplicationController
+
+  get '/users/:slug' do
+    if logged_in?
+      @user = User.find_by_slug(params[:slug])
+      erb :'/users/show.html'
+    else
+      redirect to '/login'
+    end
+  end
   
   # GET: /signup
   get "/signup" do
-    erb :"/users/new.html"
+    if logged_in?
+      redirect to "/users/#{current_user.username}"
+    else
+      erb :"/users/new.html"
+    end
   end
 
   get '/login' do
-    erb :"/users/login.html"
+    if logged_in?
+      redirect to "/users/#{current_user.username}"
+    else
+      erb :"/users/login.html"
+    end
   end
 
-  get '/users/:slug' do
-    @user = User.find_by_slug(params[:slug])
-    erb :'/users/show.html'
+  get '/logout' do
+    if logged_in?
+      session[:user_id] = nil
+      redirect to '/'
+    else
+      redirect to '/'
+    end
   end
 
   post "/users" do
-    user = User.create(params[:user])
-    redirect "/users/#{user.slug}"
+    @user = User.new(params[:user])
+    if @user.save
+      redirect "/users/#{@user.slug}"
+    else
+      redirect to '/signup'
+    end
   end
 
   post '/login' do
