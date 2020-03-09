@@ -1,37 +1,26 @@
 class UsersController < ApplicationController
-
-  # GET: /users
-  get "/users" do
-    erb :"/users/index.html"
+  
+  # GET: /signup
+  get "/signup" do
+    erb :"/users/new.html"
   end
 
-  # GET: /users/new
-  get "/users/new" do
-    erb :"/users/new.html"
+  get '/login' do
+    erb :"/users/login.html"
   end
 
   # POST: /users
   post "/users" do
-    redirect "/users"
+    user = User.create(params[:user])
+    redirect "/users/#{user.slug}"
   end
 
-  # GET: /users/5
-  get "/users/:id" do
-    erb :"/users/show.html"
+  post '/login' do
+    
   end
 
-  # GET: /users/5/edit
-  get "/users/:id/edit" do
-    erb :"/users/edit.html"
-  end
-
-  # PATCH: /users/5
-  patch "/users/:id" do
-    redirect "/users/:id"
-  end
-
-  # DELETE: /users/5/delete
-  delete "/users/:id/delete" do
-    redirect "/users"
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'/users/show.html'
   end
 end
