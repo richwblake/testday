@@ -26,6 +26,15 @@ class UsersController < ApplicationController
     end
   end
 
+  get '/users/:slug/edit' do
+    if logged_in?
+      @user = current_user
+      erb :'/users/edit.html'
+    else
+      redirect to '/login'
+    end
+  end
+
   get '/logout' do
     if logged_in?
       session[:user_id] = nil
@@ -51,6 +60,19 @@ class UsersController < ApplicationController
       redirect to "/users/#{@user.username}"
     else
       redirect to '/login'
+    end
+  end
+
+  post '/users/:slug/edit' do
+    @user = current_user
+    params[:user].each do |key, value|
+      @user.send("#{key}=", value.strip) if value.strip != ""
+    end
+    
+    if @user.save
+      redirect to "/users/#{@user.username}"
+    else
+      redirect to "/users/#{@user.username}/edit"
     end
   end
 end

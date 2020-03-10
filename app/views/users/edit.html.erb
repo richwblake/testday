@@ -1,1 +1,13 @@
-<h1>Insert the form to edit an instance of your model here.</h1>
+<h1>Change your account information</h1>
+<h3>Username: <%= @user.username %></h3>
+<h3>E-mail: <%= @user.email %></h3>
+
+<br>
+
+<p>Leave a field blank if you wish to keep the current information</p>
+<form action="/users/<%= @user.username %>/edit" method="POST">
+    <h3>New Username: <input type="text" name="user[username]"></h3>
+    <h3>New Email: <input type="text" name="user[email]"></h3>
+    <h3>New Password: <input type="password" name="user[password]"></h3>
+    <input type="submit" value="Confirm Changes">
+</form>
