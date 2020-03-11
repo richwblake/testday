@@ -1,4 +1,7 @@
 <h1>Notecards</h1>
+<form action="/users/<%= current_user.username %>/notecards/new">
+    <input type="submit" value="Create New Notecard">
+</form>
 <% @user.notecards.each do |card| %>
 <hr>
 <h3>Concept: <%= card.concept %></h3>
