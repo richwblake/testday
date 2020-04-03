@@ -18,13 +18,43 @@ class NotecardsController < ApplicationController
     end
   end
 
+  get "/users/:slug/notecards/:id" do
+    if logged_in?
+      @notecard = Notecard.find(params[:id])
+      erb :"/notecards/show.html"
+    else
+      redirect to '/login'
+    end
+  end
+
+  get "/users/:slug/notecards/:id/edit" do
+    @notecard = Notecard.find(params[:id])
+    erb :"/notecards/edit.html"
+  end
+
   post "/notecards/new" do
     notecard = Notecard.new(params[:notecard])
     if notecard.save
       current_user.notecards << notecard
-      redirect to '/users/:slug/notecards'
+      redirect to "/users/#{current_user.username}/notecards"
     else
-      redirect to 'users/:slug/notecards/new'
+      redirect to "/users/#{current_user.username}/notecards/new"
     end
+  end
+
+  patch "/users/:slug/notecards/:id/edit" do
+    @notecard = Notecard.find(params[:id])
+
+    if @notecard.update(compact_hash(params[:notecard]))
+      redirect to "/users/#{current_user.username}/notecards/#{@notecard.id}"
+    else
+      redirect to "/users/#{current_user.username}/notecards/#{@notecard.id}/edit"
+    end
+  end
+
+  delete "/users/:slug/notecards/:id/delete" do
+    @notecard = Notecard.find(params[:id])
+    @notecard.destroy
+    redirect to "/users/#{current_user.username}/notecards"
   end
 end

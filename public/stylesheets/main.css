@@ -15,6 +15,15 @@
         color: lightskyblue;
     }
 
+    .note-link {
+        text-decoration: none;
+        color: darkslategray
+    }
+
+    .note-link:hover {
+        background-color: antiquewhite;
+    }
+
     .log-out-btn  {
         text-align: right;
     }

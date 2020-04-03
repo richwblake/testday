@@ -1,1 +1,11 @@
-<h1>This is the show page for an individual instance of your model.</h1>
+<h2>Concept: <%= @notecard.concept %></h2>
+<h3>Definition: <i><%= @notecard.definition %></i></h3>
+
+<form action="/users/<%= current_user.username %>/notecards/<%= @notecard.id %>/edit" method="GET">
+    <input type="submit" value="Edit Notecard">
+</form>
+
+<form action="/users/<%= current_user.username %>/notecards/<%= @notecard.id %>/delete" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Notecard">
+</form>

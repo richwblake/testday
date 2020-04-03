@@ -1,8 +1,8 @@
 <h1>Notecards</h1>
-<form action="/users/<%= current_user.username %>/notecards/new">
+<form action="/users/<%= current_user.username %>/notecards/new" method="GET">
     <input type="submit" value="Create New Notecard">
 </form>
 <% @user.notecards.each do |card| %>
 <hr>
-<h3>Concept: <%= card.concept %></h3>
+<h3>Concept: <a class="note-link" href="/users/<%= current_user.username %>/notecards/<%= card.id %>"><%= card.concept %></a></h3>
 <% end %>
