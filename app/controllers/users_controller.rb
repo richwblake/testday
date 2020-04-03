@@ -47,6 +47,7 @@ class UsersController < ApplicationController
   post "/users" do
     @user = User.new(params[:user])
     if @user.save
+      session[:user_id] = @user.id
       redirect "/users/#{@user.slug}"
     else
       redirect to '/signup'
@@ -63,16 +64,21 @@ class UsersController < ApplicationController
     end
   end
 
-  post '/users/:slug/edit' do
+  patch '/users/:slug/edit' do
     @user = current_user
-    params[:user].each do |key, value|
-      @user.send("#{key}=", value.strip) if value.strip != ""
-    end
-    
+    @user.update(compact_hash(params[:user]))
+
     if @user.save
       redirect to "/users/#{@user.username}"
     else
       redirect to "/users/#{@user.username}/edit"
     end
+  end
+
+  delete '/users/:slug/delete' do
+    @user = current_user
+    @user.destroy
+    session[:user_id] = nil
+    redirect to '/'
   end
 end

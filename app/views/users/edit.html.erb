@@ -6,8 +6,15 @@
 
 <p>Leave a field blank if you wish to keep the current information</p>
 <form action="/users/<%= @user.username %>/edit" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="PATCH">
     <h3>New Username: <input type="text" name="user[username]"></h3>
     <h3>New Email: <input type="text" name="user[email]"></h3>
-    <h3>New Password: <input type="password" name="user[password]"></h3>
     <input type="submit" value="Confirm Changes">
+</form>
+
+<h3>OR</h3>
+
+<form action="/users/<%= @user.username %>/delete" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Account">
 </form>

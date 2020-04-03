@@ -23,7 +23,11 @@ class ApplicationController < Sinatra::Base
     end
 
     def current_user
-      @current_user = User.find(session[:user_id]) if session[:user_id]
+      session[:user_id] ? @current_user = User.find(session[:user_id]) : @current_user = nil
+    end
+
+    def compact_hash(user_hash)
+      user_hash.delete_if { |k, v| v.empty? }
     end
   end
 end
