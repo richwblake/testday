@@ -29,5 +29,9 @@ class ApplicationController < Sinatra::Base
     def compact_hash(user_hash)
       user_hash.delete_if { |k, v| v.empty? }
     end
+
+    def redirect_if_not_owner(notecard)
+      redirect to "/users/#{current_user.slug}/notecards" if current_user.id != notecard.user_id
+    end
   end
 end

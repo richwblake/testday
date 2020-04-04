@@ -29,6 +29,8 @@ class NotecardsController < ApplicationController
 
   get "/users/:slug/notecards/:id/edit" do
     @notecard = Notecard.find(params[:id])
+
+    redirect_if_not_owner(@notecard)
     erb :"/notecards/edit.html"
   end
 
@@ -45,6 +47,7 @@ class NotecardsController < ApplicationController
   patch "/users/:slug/notecards/:id/edit" do
     @notecard = Notecard.find(params[:id])
 
+    redirect_if_not_owner(@notecard)
     if @notecard.update(compact_hash(params[:notecard]))
       redirect to "/users/#{current_user.username}/notecards/#{@notecard.id}"
     else
@@ -54,6 +57,7 @@ class NotecardsController < ApplicationController
 
   delete "/users/:slug/notecards/:id/delete" do
     @notecard = Notecard.find(params[:id])
+    redirect_if_not_owner(@notecard)
     @notecard.destroy
     redirect to "/users/#{current_user.username}/notecards"
   end
